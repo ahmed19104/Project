@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Project.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h2 class="text-light mb-4">🎬 Movies</h2>
+
+<p>
+    <a class="btn btn-primary mb-3" asp-action="Create">
+        <i class="bi bi-plus-circle"></i> Add Movie
+    </a>
+</p>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card movie-card p-0">
+
+                <!-- Movie Image -->
+                <img src="@item.ImageURL" class="card-img-top movie-img" />
+
+                <div class="card-body">
+
+                    <h4 class="card-title text-white">@item.Cinema.Name</h4>
+                    <h4 class="card-title text-white">@item.Producer.FullName</h4>
+
+                    <!-- Movie Name -->
+                    <h5 class="card-title text-white">@item.Name</h5>
+
+                    <!-- Price -->
+                    <p class="text-info fw-bold">$@item.Price</p>
+
+                    <!-- Date -->
+                    <p class="text-muted small mb-1">
+                        <i class="bi bi-calendar-event"></i>
+                        @item.StartDate.ToShortDateString() - @item.EndDate.ToShortDateString()
+                    </p>
+
+                    <!-- Category -->
+                    <span class="badge bg-secondary">@item.MovieCategory</span>
+
+                    <hr />
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-outline-light btn-sm" asp-action="Edit" asp-route-id="@item.Id">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.Id">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

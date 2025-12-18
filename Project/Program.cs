@@ -1,3 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using NToastNotify;
+using Project.Data;
+
+
+
 namespace Project
 {
     public class Program
@@ -8,7 +14,18 @@ namespace Project
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<AppDbContext>(opt=>opt.UseSqlServer(builder.Configuration.GetConnectionString("conString")));
+            builder.Services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
+            {
+                ProgressBar = true,
+                PositionClass = ToastPositions.TopRight,
+                PreventDuplicates = true,
+                CloseButton = true
+            });
+            builder.Services.AddScoped<Data.Services.IActorsServices, Data.Services.ActorsService>();
+            //builder.Services.AddScoped<Data.Services.IProducersService, Data.Services.ProducersService>();
+            //builder.Services.AddScoped<Data.Services.ICinemasService, Data.Services.CinemasService>();
+            builder.Services.AddScoped<Data.Services.IMovicesService, Data.Services.MoviesService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,7 +46,7 @@ namespace Project
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
-
+            AppDbInitialzier.Initialize(app);
             app.Run();
         }
     }

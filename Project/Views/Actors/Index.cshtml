@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Project.Models.Actor>
+
+@{
+    ViewData["Title"] = "Actors";
+}
+
+<h2 class="text-light mb-4">🎭 Actors</h2>
+
+<p>
+    <a class="btn btn-primary mb-3" asp-action="Create">
+        <i class="bi bi-plus-circle"></i> Add Actor
+    </a>
+</p>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card actor-card p-0">
+
+                <!-- Actor Photo -->
+                <img src="@item.ProfilePictureURL" class="card-img-top actor-img" />
+
+                <div class="card-body text-center">
+
+                    <!-- Full Name -->
+                    <h5 class="card-title text-white">@item.FullName</h5>
+
+                    <hr />
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-center gap-2">
+                        <a class="btn btn-outline-light btn-sm" asp-action="Edit" asp-route-id="@item.Id">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.Id">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
