@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Project.Data.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project.Models
 {
@@ -9,5 +10,6 @@ namespace Project.Models
         public string FullName { get; set; }
         public string ProfilePictureURL { get; set; }
         public ICollection<Movie> Movies { get; set; }
+        
     }
 }

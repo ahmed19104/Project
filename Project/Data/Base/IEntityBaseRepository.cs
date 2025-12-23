@@ -7,7 +7,8 @@
         Task Add(T entity);
         Task Update(int id, T entity);
         Task Delete(int id);
-            
+        Task GetDetails(int id);
+
 
     }
 }

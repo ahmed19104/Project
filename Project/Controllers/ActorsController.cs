@@ -31,8 +31,9 @@ namespace Project.Controllers
             var actor = await _Context.GetById(id);
             return View(actor);
         }
-        public IActionResult Create()
+        public  IActionResult Create()
         {
+           
             return View();
         }
         [HttpPost]
@@ -65,10 +66,17 @@ namespace Project.Controllers
 
            
         }
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+         var actor = await _Context.GetById(id);
+            if (actor == null)
+            {
+                return NotFound();
+            }
+            return View(actor);
         }
+
+
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

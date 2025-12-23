@@ -1,6 +1,8 @@
-﻿namespace Project.Models
+﻿using Project.Data.Base;
+
+namespace Project.Models
 {
-    public class Cinema
+    public class Cinema:IEntityBase
     {
         public int Id { get; set; }
         public string Name { get; set; }

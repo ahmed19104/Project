@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Project.Models.Cinema>
+
+@{
+    ViewData["Title"] = "Cinemas List";
+}
+
+<div class="container mt-4">
+    @if(User.IsInRole("Admin"))
+    {
+        <div class="alert alert-info" role="alert">
+            You are logged in as an <strong>Admin</strong>. You have full access to manage cinemas.
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h3">Cinemas</h1>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning" role="alert">
+            You are logged in as a <strong>User</strong>. You have limited access.
+        </div>
+    }
+
+   
+
+    <table class="table table-striped table-hover table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Logo</th>
+                <th scope="col" class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Logo))
+                        {
+                            <img src="@item.Logo" alt="@item.Name" class="img-thumbnail" style="max-width: 80px;" />
+                        }
+                        else
+                        {
+                            <span class="text-muted">No Logo</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info me-1">Details</a>
+                       @if(User.IsInRole("Admin"))
+                        {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

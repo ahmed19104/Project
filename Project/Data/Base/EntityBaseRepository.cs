@@ -6,7 +6,7 @@ namespace Project.Data.Base
 {
     public class EntityBaseRepository<T> : IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
-        private readonly AppDbContext _Context;
+        protected readonly AppDbContext _Context;
 
         public EntityBaseRepository(AppDbContext Context)
         {
@@ -21,7 +21,13 @@ namespace Project.Data.Base
 
         public Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var entityToDelete = _Context.Set<T>().FirstOrDefault(n => n.Id == id);
+            if (entityToDelete != null)
+            {
+                _Context.Set<T>().Remove(entityToDelete);
+                _Context.SaveChanges();
+            }
+            return Task.CompletedTask;
         }
 
         public async Task<IEnumerable<T>> GetAll()
@@ -34,6 +40,12 @@ namespace Project.Data.Base
         {
             var entity = await _Context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
             return entity;
+        }
+
+        public Task GetDetails(int id)
+        {
+            var entity = _Context.Set<T>().FirstOrDefault(n => n.Id == id);
+            return Task.CompletedTask;
         }
 
         public Task Update(int id, T entity)

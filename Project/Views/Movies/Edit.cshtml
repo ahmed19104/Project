@@ -1,74 +1,105 @@
 ﻿@model Project.Models.Movie
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Movie";
 }
 
-<h1>Edit</h1>
+<h1>Edit Movie</h1>
 
-<h4>Movie</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Name -->
+            <div class="form-group mb-2">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <!-- Description -->
+            <div class="form-group mb-2">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <!-- Price -->
+            <div class="form-group mb-2">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <!-- Image -->
+            <div class="form-group mb-2">
                 <label asp-for="ImageURL" class="control-label"></label>
                 <input asp-for="ImageURL" class="form-control" />
                 <span asp-validation-for="ImageURL" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <!-- Start Date -->
+            <div class="form-group mb-2">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <input asp-for="StartDate" type="date" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <!-- End Date -->
+            <div class="form-group mb-2">
                 <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
+                <input asp-for="EndDate" type="date" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <!-- Movie Category -->
+            <div class="form-group mb-2">
                 <label asp-for="MovieCategory" class="control-label"></label>
-                <select asp-for="MovieCategory" class="form-control"></select>
+                <select asp-for="MovieCategory" class="form-control"
+                        asp-items="Html.GetEnumSelectList<MovieCategory>()">
+                </select>
                 <span asp-validation-for="MovieCategory" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <!-- Cinema -->
+            <div class="form-group mb-2">
                 <label asp-for="CinemaId" class="control-label"></label>
-                <select asp-for="CinemaId" class="form-control" asp-items="ViewBag.CinemaId"></select>
+                <select asp-for="CinemaId" class="form-control" asp-items="ViewBag.Cinemas">
+                </select>
                 <span asp-validation-for="CinemaId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <!-- Producer -->
+            <div class="form-group mb-2">
                 <label asp-for="ProducerId" class="control-label"></label>
-                <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.ProducerId"></select>
+                <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.Producers">
+                </select>
                 <span asp-validation-for="ProducerId" class="text-danger"></span>
             </div>
+
+            <!-- Actors (Many-to-Many) -->
+            <div class="form-group mb-3">
+                <label>Actors</label>
+                <select asp-for="Actor_Movie" class="form-control" asp-items="ViewBag.Actors" multiple>
+                </select>
+            </div>
+
+            <!-- Submit -->
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

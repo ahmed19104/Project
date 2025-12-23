@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Project.Models.Producert>
+
+@{
+    ViewData["Title"] = "Producerts List";
+}
+
+<div class="container mt-4">
+    @if(User.IsInRole("Admin"))
+    {
+        <div class="alert alert-info" role="alert">
+            You are logged in as an <strong>Admin</strong>. You have full access to create, edit, and delete producerts.
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h3">Producerts</h1>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </div>
+    }
+
+  
+
+    <table class="table table-striped table-hover table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Profile Picture</th>
+                <th scope="col" class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.FullName</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ProfilePictureURL))
+                        {
+                            <img src="@item.ProfilePictureURL" alt="@item.FullName" class="img-thumbnail" style="max-width: 80px;" />
+                        }
+                        else
+                        {
+                            <span class="text-muted">No Image</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="Details" asp-route-id="@item.ProducerId" class="btn btn-sm btn-info me-1">Details</a>
+                        @if(User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ProducerId" class="btn btn-sm btn-warning me-1">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.ProducerId" class="btn btn-sm btn-danger">Delete</a>
+                        }
+                        
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

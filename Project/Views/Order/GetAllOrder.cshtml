@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Project.Models.Order>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders</h2>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Products</th>
+            <th>Email</th>
+            <th>Order Date</th>
+            <th>User</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <!-- Products -->
+                <td>
+                    @foreach (var item in order.OrderItems)
+                    {
+                        <div class="d-flex align-items-center mb-2">
+
+                            <!-- Movie Image -->
+                            <img src="@item.Movie.ImageURL"
+                                 alt="@item.Movie.Name"
+                                 style="width:70px; height:100px; object-fit:cover;"
+                                 class="me-3 rounded shadow-sm" />
+
+                            <!-- Movie Info -->
+                            <div>
+                                <strong>@item.Movie.Name</strong><br />
+                                Quantity: @item.Quantity <br />
+                                Price: @item.Price.ToString("C") <br />
+                                Subtotal:
+                                <strong>
+                                    @(item.Price* item.Quantity)
+                                </strong>
+                            </div>
+                        </div>
+                    }
+                </td>
+
+
+                <!-- Email -->
+                <td>@order.Email</td>
+
+                <!-- Date -->
+                <td>@order.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+
+                <!-- User -->
+                <td>@order.AppUser?.Email</td>
+
+                <!-- Total -->
+                <td class="fw-bold text-success">
+                    @order.OrderItems.Sum(i => i.Price * i.Quantity).ToString("C")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

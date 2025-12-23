@@ -23,5 +23,6 @@ namespace Project.Models
         [ForeignKey("Producer")]
         public int ProducerId { get; set; }
         public Producert Producer { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }
